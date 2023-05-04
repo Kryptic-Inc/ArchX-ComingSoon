@@ -32,7 +32,7 @@
             data-netlify="true"
             netlify-honeypot="bot-field"
             data-netlify-recaptcha="true"
-            class="mb-5 d-flex"
+            class="mb-5 d-flex flex-column align-items-center"
             netlify
             onsubmit="submitForm(event)"
           >
@@ -50,10 +50,8 @@
               <input name="bot-field" class="hidden" />
               <button type="submit" class="btn btn-primary">Join Alpha</button>
             </div>
-          </form>
-          <div class="captcha">
             <div data-netlify-recaptcha="true"></div>
-          </div>
+          </form>
 
           <div class="app-stores">
             <img src="./assets/images/playstore.png" alt="Coming Soon on App Store" class="img-fluid" />
@@ -73,6 +71,6 @@
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.bundle.min.js"></script>
-    <script src="form.js"></script>
+    <script src="./assets/js/form.js"></script>
   </body>
 </html>
