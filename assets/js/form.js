@@ -4,13 +4,20 @@ function submitForm(event) {
   // Get the form element
   const form = event.target;
 
+  // Remove existing error or success messages
+  const existingMessage = document.querySelector(".form-message");
+  if (existingMessage) {
+    existingMessage.remove();
+  }
+
   // Check if reCAPTCHA is filled
   const recaptchaResponse = grecaptcha.getResponse();
   if (recaptchaResponse.length === 0) {
     // Show error message below the input
     const errorMessage = document.createElement("p");
     errorMessage.textContent = "Please complete the reCAPTCHA.";
-    errorMessage.style.color = "red";
+    errorMessage.style.color = "#FE475F";
+    errorMessage.classList.add("form-message");
     form.appendChild(errorMessage);
     return;
   }
@@ -30,16 +37,35 @@ function submitForm(event) {
 
         // Show success message below the input
         const successMessage = document.createElement("p");
-        successMessage.textContent = "Thank you! Form submitted successfully!";
-        successMessage.style.color = "green";
+        successMessage.textContent = "Thank you! Your email was submitted successfully!";
+        successMessage.style.color = "#00CF30";
+        successMessage.classList.add("form-message");
         form.appendChild(successMessage);
       } else {
         // Show error message
-        alert("There was an error submitting the form. Please try again.");
+        const errorMessage = document.createElement("p");
+        errorMessage.textContent = "There was an error submitting the form. Please try again.";
+        errorMessage.style.color = "#FE475F";
+        errorMessage.classList.add("form-message");
+        form.appendChild(errorMessage);
+
+        // Remove the error message after 2 seconds
+        setTimeout(() => {
+          errorMessage.remove();
+        }, 2000);
       }
     })
     .catch((error) => {
       // Show error message
-      alert("There was an error submitting the form. Please try again.");
+      const errorMessage = document.createElement("p");
+      errorMessage.textContent = "There was an error submitting the form. Please try again.";
+      errorMessage.style.color = "#FE475F";
+      errorMessage.classList.add("form-message");
+      form.appendChild(errorMessage);
+
+      // Remove the error message after 2 seconds
+      setTimeout(() => {
+        errorMessage.remove();
+      }, 2000);
     });
 }
