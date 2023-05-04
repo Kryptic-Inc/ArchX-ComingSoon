@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ArchX Wallet - Coming Soon</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./assets/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/fill/style.css" />
+  </head>
+  <body>
+    <header class="px-4">
+      <img src="./assets/images/logo.png" alt="ArchX Wallet Logo" class="archx-logo" />
+      <div class="social-icons mt-2">
+        <a href="https://github.com/Kryptic-Inc/ArchX-Alpha" target="_blank" class="social-icon">
+          <i class="ph-fill ph-github-logo"></i>
+        </a>
+        <a href="https://twitter.com/ArchX_Wallet" target="_blank" class="social-icon">
+          <i class="ph-fill ph-twitter-logo"></i>
+        </a>
+      </div>
+    </header>
+    <main class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <h1 class="slogan mb-4">Elevate your Crypto Experience</h1>
+          <h2 class="coming-soon mb-4">Coming Soon!</h2>
+          <p class="join-alpha">Join our Alpha testing group!</p>
+          <form
+            name="email-subscription"
+            method="POST"
+            data-netlify="true"
+            netlify-honeypot="bot-field"
+            data-netlify-recaptcha="true"
+            class="mb-5 d-flex"
+          >
+            <div class="form-group d-flex">
+              <label for="email" class="sr-only">Email:</label>
+              <input
+                type="email"
+                class="form-control"
+                name="email"
+                id="email"
+                placeholder="Enter your email"
+                required
+              />
+              <input for="email" name="bot-field" class="hidden" />
+              <button type="submit" class="btn btn-primary">Join Alpha</button>
+            </div>
+            <div data-netlify-recaptcha="true"></div>
+          </form>
+          <div class="app-stores">
+            <img src="./assets/images/playstore.png" alt="Coming Soon on App Store" class="img-fluid" />
+            <img src="./assets/images/appstore.png" alt="Coming Soon on Play Store" class="img-fluid" />
+          </div>
+          <div class="mt-2 kryptic">
+            <span class="text-muted">Built by</span>
+            <a href="https://kryptic.io/" target="_blank">
+              <img src="./assets/images/krypticlogo.png" alt="Kryptic Logo" class="img-fluid" />
+            </a>
+          </div>
+        </div>
+        <div class="col-md-6 d-flex justify-content-center align-items-center">
+          <img src="./assets/images/mockup.png" alt="ArchX Wallet App Mockup" class="img-fluid mockup-img" />
+        </div>
+      </div>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.bundle.min.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
