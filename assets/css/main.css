@@ -69,6 +69,11 @@ form .form-control {
 .hidden {
   display: none;
 }
+.captcha {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
 
 .btn-primary {
   display: inline-block;
