@@ -27,7 +27,7 @@
           <h2 class="coming-soon mb-4">Coming Soon!</h2>
           <p class="join-alpha">Join our Alpha testing group!</p>
           <form
-            name="email-subscription"
+            name="emailSubscription"
             method="POST"
             data-netlify="true"
             netlify-honeypot="bot-field"
@@ -37,6 +37,7 @@
             <div class="form-group d-flex">
               <label for="email" class="sr-only">Email:</label>
               <input
+                for="email"
                 type="email"
                 class="form-control"
                 name="email"
@@ -44,7 +45,7 @@
                 placeholder="Enter your email"
                 required
               />
-              <input for="email" name="bot-field" class="hidden" />
+              <input name="bot-field" class="hidden" />
               <button type="submit" class="btn btn-primary">Join Alpha</button>
             </div>
             <div data-netlify-recaptcha="true"></div>
