@@ -34,6 +34,7 @@
             data-netlify-recaptcha="true"
             class="mb-5 d-flex"
             netlify
+            onsubmit="submitForm(event)"
           >
             <div class="form-group d-flex">
               <label for="email" class="sr-only">Email:</label>
@@ -70,7 +71,8 @@
         </div>
       </div>
     </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.bundle.min.js"></script>
-    <script src="main.js"></script>
+    <script src="form.js"></script>
   </body>
 </html>
