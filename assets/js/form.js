@@ -1,7 +1,15 @@
 function submitForm(event) {
   event.preventDefault(); // Prevent the default form submission behavior
 
-  // Get the form element
+  // Get the submit button
+  const submitButton = event.target.querySelector("button[type='submit']");
+
+  // Check if the submit button is disabled
+  if (submitButton.disabled) {
+    // If the submit button is disabled, don't proceed with form submission
+    return;
+  }
+
   const form = event.target;
 
   // Remove existing error or success messages
