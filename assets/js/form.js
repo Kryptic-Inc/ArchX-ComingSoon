@@ -40,15 +40,17 @@ function submitForm(event) {
   }
 
   // Check if reCAPTCHA is filled
-  const recaptchaResponse = grecaptcha.getResponse();
-  if (recaptchaResponse.length === 0) {
-    // Show error message below the input
-    const errorMessage = document.createElement("p");
-    errorMessage.textContent = "Please complete the reCAPTCHA.";
-    errorMessage.style.color = "#FE475F";
-    errorMessage.classList.add("form-message");
-    form.appendChild(errorMessage);
-    return;
+  if (window.location.hostname !== "localhost") {
+    const recaptchaResponse = grecaptcha.getResponse();
+    if (recaptchaResponse.length === 0) {
+      // Show error message below the input
+      const errorMessage = document.createElement("p");
+      errorMessage.textContent = "Please complete the reCAPTCHA.";
+      errorMessage.style.color = "#FE475F";
+      errorMessage.classList.add("form-message");
+      form.appendChild(errorMessage);
+      return;
+    }
   }
 
   // Send the form data to Netlify

@@ -4,8 +4,6 @@ const sendConfirmationCodeEmail = require("./sendConfirmationCodeEmail");
 const { phoneModels, countryList } = require("./list");
 const url = require("url");
 
-console.log(process.env.FIREBASE_PRIVATE_KEY);
-
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert({
@@ -20,9 +18,13 @@ if (!admin.apps.length) {
 const db = admin.firestore();
 
 exports.handler = async (event, context) => {
-  const clientIp = event.headers["x-nf-client-connection-ip"];
+  console.log("Setting handler...");
+
+  const clientIp = event.headers["x-nf-client-connection-ip"] || event.headers["client-ip"];
 
   if (!clientIp) {
+    console.log("Client IP address missing");
+
     return {
       statusCode: 400,
       body: JSON.stringify({ success: false, message: "Client IP address missing." }),
@@ -30,25 +32,28 @@ exports.handler = async (event, context) => {
   }
 
   const body = Object.fromEntries(new url.URLSearchParams(event.body));
-  console.log(body);
-  // Email validation
+
+  console.log("Parsed body:", body);
   if (!body.email || !/\S+@\S+\.\S+/.test(body.email)) {
+    console.log("Email is invalid");
     return {
       statusCode: 400,
       body: JSON.stringify({ success: false, message: "Email is invalid." }),
     };
   }
 
-  // Phone type validation
   if (!body.phoneType || !phoneModels[body.phoneType.toUpperCase()]) {
+    console.log("Phone type is invalid");
+
     return {
       statusCode: 400,
       body: JSON.stringify({ success: false, message: "Phone type is invalid." }),
     };
   }
 
-  // Phone model validation
   if (!body.phoneModel || !phoneModels[body.phoneType.toUpperCase()].includes(body.phoneModel)) {
+    console.log("Phone model is invalid");
+
     return {
       statusCode: 400,
       body: JSON.stringify({ success: false, message: "Phone model is invalid." }),
@@ -56,42 +61,38 @@ exports.handler = async (event, context) => {
   }
 
   if (!body.country || !countryList.includes(body.country)) {
+    console.log("Country is invalid");
+
     return {
       statusCode: 400,
       body: JSON.stringify({ success: false, message: "Country is invalid." }),
     };
   }
-  console.log("Checking IP in Firebase...");
+  console.log("Checking IP in Firebase");
 
   const ipRef = db.collection("AlphaTestersSubmissionIPAddresses").doc(clientIp);
-  const ipDoc = await ipRef.get();
+  const submissionsRef = ipRef.collection("Submissions");
 
-  if (ipDoc.exists) {
-    const submissions = ipDoc.data().submissions.filter((timestamp) => {
-      // Remove timestamps older than 24 hours
-      const oneDayAgo = new Date();
-      oneDayAgo.setDate(oneDayAgo.getDate() - 1);
-      return timestamp.toDate() > oneDayAgo;
-    });
+  const oneDayAgo = admin.firestore.Timestamp.fromDate(new Date(Date.now() - 24 * 60 * 60 * 1000));
+  const submissionsSnapshot = await submissionsRef.where("timestamp", ">", oneDayAgo).get();
 
-    if (submissions.length >= 3) {
-      return {
-        statusCode: 429,
-        body: JSON.stringify({ success: false, message: "Rate limit exceeded." }),
-      };
-    }
+  if (submissionsSnapshot.size >= 3) {
+    console.log("Rate limit exceeded");
+
+    return {
+      statusCode: 429,
+      body: JSON.stringify({ success: false, message: "Rate limit exceeded." }),
+    };
   }
 
-  // Generate a UUID
   const uuid = crypto.randomUUID();
+  console.log("UUID:", uuid);
 
-  // Generate a random 6 character alphanumeric confirmation code (not case sensitive)
   const confirmationCode = [...Array(6)].map(() => (~~(Math.random() * 36)).toString(36).toUpperCase()).join("");
-
-  // Store the form data, UUID, and confirmation code, along with the IP address and the current timestamp
-  console.log("Checking IP in Firebase...");
+  console.log("Confirmation Code:", confirmationCode);
 
   try {
+    console.log("Store form document");
     await db.collection("AlphaTestersSubmissions").doc(uuid).set({
       email: body.email,
       phoneType: body.phoneType,
@@ -104,38 +105,23 @@ exports.handler = async (event, context) => {
     });
     console.log("Form data, UUID, and confirmation code stored successfully");
 
-    // Update the IP address document
-    await ipRef.set(
-      {
-        submissions: admin.firestore.FieldValue.arrayUnion(admin.firestore.FieldValue.serverTimestamp()),
-      },
-      { merge: true }
-    );
-
-    console.log("Sending confirmation code email...");
-    await sendConfirmationCodeEmail({
-      email: body.email,
-      confirmationCode: confirmationCode,
-      uuid: uuid,
+    await submissionsRef.add({
+      timestamp: admin.firestore.FieldValue.serverTimestamp(),
     });
-    console.log("Sending confirmation code email...");
-  } catch (error) {
-    console.log("Sending confirmation code email...");
 
+    console.log("Sending confirmation code email...");
+    await sendConfirmationCodeEmail(body.email, confirmationCode, uuid);
+    console.log("Sent confirmation code email...");
+  } catch (error) {
+    console.log(error);
     let errorMessage = "Internal server error";
     let statusCode = 500;
-
-    if (error instanceof EmailError) {
-      errorMessage = "Failed to send confirmation code email";
-      statusCode = 400;
-    }
-
     return {
       statusCode: statusCode,
       body: JSON.stringify({ success: false, message: errorMessage, error: error.message }),
     };
   }
-
+  console.log("Success registration");
   return {
     statusCode: 200,
     body: JSON.stringify({ success: true, uuid: uuid }),

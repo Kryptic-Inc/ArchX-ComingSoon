@@ -2,15 +2,20 @@ const postmark = require("postmark");
 
 const sendConfirmationCodeEmail = async (email, confirmationCode, uuid) => {
   try {
-    const client = new postmark.ServerClient(process.env.NETLIFY_EMAILS_PROVIDER_API_KEY);
+    console.log("Creating Postmark Client...");
+    console.log(process.env.EMAIL_PROVIDER_KEY);
+    const client = new postmark.ServerClient("56aa55fa-2b52-4c06-9799-f761eba3e379");
 
-    // Prepare the template model
+    console.log("Creating Template Model ");
+
     const templateModel = {
-      confirmation_code: confirmationCode, // Assign the actual confirmationCode to the template model
+      confirmation_code: confirmationCode,
       confirmation_link: `https://archx.io/email-confirmation?uuid=${uuid}`,
     };
 
-    // Create the email content
+    console.log("Template:", templateModel);
+
+    console.log("Creating email message");
     const message = {
       From: "support@archx.io",
       To: email,
@@ -18,19 +23,14 @@ const sendConfirmationCodeEmail = async (email, confirmationCode, uuid) => {
       TemplateModel: templateModel,
     };
 
-    // Send the email
+    console.log("Message:", message);
+
+    console.log("Sending email...");
     await client.sendEmailWithTemplate(message);
+    console.log("Sent email...");
   } catch (error) {
-    // Throw a custom error
-    throw new EmailError(error.message);
+    throw new Error(error.message);
   }
 };
 
-class EmailError extends Error {
-  constructor(message) {
-    super(message);
-    this.name = "EmailError";
-  }
-}
-
-module.exports = { sendConfirmationCodeEmail, EmailError };
+module.exports = sendConfirmationCodeEmail;

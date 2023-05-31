@@ -1,4 +1,5 @@
 const admin = require("firebase-admin");
+const url = require("url");
 
 if (!admin.apps.length) {
   admin.initializeApp({
@@ -14,9 +15,8 @@ if (!admin.apps.length) {
 const db = admin.firestore();
 
 exports.handler = async (event) => {
-  const body = JSON.parse(event.body);
-
-  // Validate the UUID and confirmation code
+  const body = Object.fromEntries(new url.URLSearchParams(event.body));
+  console.log(body);
   if (!body.uuid || !body.confirmationCode) {
     return {
       statusCode: 400,
@@ -25,7 +25,6 @@ exports.handler = async (event) => {
   }
 
   try {
-    // Get the form submission from the Firestore database
     const doc = await db.collection("AlphaTestersSubmissions").doc(body.uuid).get();
 
     if (!doc.exists) {
@@ -37,7 +36,6 @@ exports.handler = async (event) => {
 
     const data = doc.data();
 
-    // Check if the confirmation code matches
     if (data.confirmationCode !== body.confirmationCode.toUpperCase()) {
       return {
         statusCode: 400,
@@ -45,7 +43,15 @@ exports.handler = async (event) => {
       };
     }
 
-    // If confirmation code matches, update the document to mark the email as confirmed
+    const now = Date.now();
+    const validTime = data.timestamp.toMillis() + 30 * 60 * 1000;
+    if (now > validTime) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ success: false, error: "Confirmation code has expired." }),
+      };
+    }
+
     await db.collection("AlphaTestersSubmissions").doc(body.uuid).update({
       confirmed: true,
     });

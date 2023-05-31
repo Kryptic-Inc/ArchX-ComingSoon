@@ -39,9 +39,21 @@ function submitForm(event) {
     return;
   }
 
+  // Extract UUID from URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const uuid = urlParams.get("uuid");
+
+  // Check if UUID exists
+  if (!uuid) {
+    // Handle missing UUID
+    console.log("UUID not found in URL.");
+    return;
+  }
+
   // Send the form data to Netlify
   const formData = new FormData();
   formData.append("confirmationCode", confirmationCode);
+  formData.append("uuid", uuid); // Include UUID
 
   fetch("/.netlify/functions/confirm", {
     // Change this to your actual Netlify function endpoint
