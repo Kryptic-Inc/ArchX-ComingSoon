@@ -15,8 +15,6 @@ if (!admin.apps.length) {
   });
 }
 
-console.log(process.env.FIREBASE_PRIVATE_KEY);
-
 const db = admin.firestore();
 
 exports.handler = async (event, context) => {
