@@ -3,6 +3,8 @@ const crypto = require("crypto");
 const sendConfirmationCodeEmail = require("./sendConfirmationCodeEmail");
 const { phoneModels, countryList } = require("./list");
 
+console.log("Attempting to initialize Firebase Admin...");
+
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert({
@@ -12,79 +14,26 @@ if (!admin.apps.length) {
     }),
     databaseURL: "https://archx-coming-soon.firebaseio.com",
   });
+  console.log("Firebase Admin initialized successfully!");
+} else {
+  console.log("Firebase Admin already initialized!");
 }
 
 const db = admin.firestore();
+console.log("Firestore initialized");
 
 exports.handler = async (event, context) => {
-  // Check rate limit
+  console.log("Handler triggered");
 
-  const clientIp = event.headers["client-ip"];
-  if (!clientIp) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ success: false, message: "Client IP address missing." }),
-    };
-  }
+  // (Rest of your code here...)
 
-  const body = JSON.parse(event.body);
-  // Email validation
-  if (!body.email || !/\S+@\S+\.\S+/.test(body.email)) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ success: false, message: "Email is invalid." }),
-    };
-  }
-
-  // Phone type validation
-  if (!body.phoneType || !phoneModels[body.phoneType.toUpperCase()]) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ success: false, message: "Phone type is invalid." }),
-    };
-  }
-
-  // Phone model validation
-  if (!body.phoneModel || !phoneModels[body.phoneType.toUpperCase()].includes(body.phoneModel)) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ success: false, message: "Phone model is invalid." }),
-    };
-  }
-
-  if (!body.country || !countryList.includes(body.country)) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ success: false, message: "Country is invalid." }),
-    };
-  }
-
+  console.log("Checking IP in Firebase...");
   const ipRef = db.collection("AlphaTestersSubmissionIPAddresses").doc(clientIp);
   const ipDoc = await ipRef.get();
 
-  if (ipDoc.exists) {
-    const submissions = ipDoc.data().submissions.filter((timestamp) => {
-      // Remove timestamps older than 24 hours
-      const oneDayAgo = new Date();
-      oneDayAgo.setDate(oneDayAgo.getDate() - 1);
-      return timestamp.toDate() > oneDayAgo;
-    });
+  // (Rest of your code here...)
 
-    if (submissions.length >= 3) {
-      return {
-        statusCode: 429,
-        body: JSON.stringify({ success: false, message: "Rate limit exceeded." }),
-      };
-    }
-  }
-
-  // Generate a UUID
-  const uuid = crypto.randomUUID();
-
-  // Generate a random 6 character alphanumeric confirmation code (not case sensitive)
-  const confirmationCode = [...Array(6)].map(() => (~~(Math.random() * 36)).toString(36).toUpperCase()).join("");
-
-  // Store the form data, UUID, and confirmation code, along with the IP address and the current timestamp
+  console.log("Storing form data, UUID, and confirmation code...");
   try {
     await db.collection("AlphaTestersSubmissions").doc(uuid).set({
       email: body.email,
@@ -96,35 +45,23 @@ exports.handler = async (event, context) => {
       timestamp: admin.firestore.FieldValue.serverTimestamp(),
       confirmed: false,
     });
+    console.log("Form data, UUID, and confirmation code stored successfully");
 
-    // Update the IP address document
-    await ipRef.set(
-      {
-        submissions: admin.firestore.FieldValue.arrayUnion(admin.firestore.FieldValue.serverTimestamp()),
-      },
-      { merge: true }
-    );
+    // (Rest of your code here...)
 
-    // Sending the confirmation code email
+    console.log("Sending confirmation code email...");
     await sendConfirmationCodeEmail({
       email: body.email,
       confirmationCode: confirmationCode,
       uuid: uuid,
     });
+    console.log("Confirmation code email sent successfully");
   } catch (error) {
-    let errorMessage = "Internal server error";
-    let statusCode = 500;
-
-    if (error instanceof EmailError) {
-      errorMessage = "Failed to send confirmation code email";
-      statusCode = 400;
-    }
-
-    return {
-      statusCode: statusCode,
-      body: JSON.stringify({ success: false, message: errorMessage, error: error.message }),
-    };
+    console.log("Error encountered: ", error);
+    // (Rest of your error handling code here...)
   }
+
+  console.log("Function execution completed successfully!");
 
   return {
     statusCode: 200,
