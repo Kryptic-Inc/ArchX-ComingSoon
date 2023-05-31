@@ -19,14 +19,23 @@ function submitForm(event) {
   }
   // Check if all fields are filled
   for (let i = 0; i < form.elements.length; i++) {
-    if (!form.elements[i].value) {
-      // Show error message below the input
-      const errorMessage = document.createElement("p");
-      errorMessage.textContent = "Please fill all fields.";
-      errorMessage.style.color = "#FE475F";
-      errorMessage.classList.add("form-message");
-      form.appendChild(errorMessage);
-      return;
+    const element = form.elements[i];
+    const elementType = element.nodeName.toLowerCase();
+
+    // Exclude the honeypot field from the validation
+    if (element.getAttribute("name") === "bot-field") continue;
+
+    // Check if the element is an input, select or textarea
+    if (["input", "select", "textarea"].includes(elementType)) {
+      if (!element.value) {
+        // Show error message below the input
+        const errorMessage = document.createElement("p");
+        errorMessage.textContent = "Please fill all fields.";
+        errorMessage.style.color = "#FE475F";
+        errorMessage.classList.add("form-message");
+        form.appendChild(errorMessage);
+        return;
+      }
     }
   }
 
