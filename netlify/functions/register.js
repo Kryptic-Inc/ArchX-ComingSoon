@@ -23,7 +23,7 @@ console.log("Firestore initialized");
 
 exports.handler = async (event, context) => {
   // Check rate limit
-  console.log("Firestore initialized");
+  console.log("Handler triggered");
 
   const clientIp = event.headers["client-ip"];
 

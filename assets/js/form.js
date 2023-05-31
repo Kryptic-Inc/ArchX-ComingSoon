@@ -71,7 +71,7 @@ function submitForm(event) {
       } else {
         // Show error message
         const errorMessage = document.createElement("p");
-        errorMessage.textContent = data.error || "There was an error submitting the form. Please try again.";
+        errorMessage.textContent = data.message || "There was an error submitting the form. Please try again.";
         errorMessage.style.color = "#FE475F";
         errorMessage.classList.add("form-message");
         form.appendChild(errorMessage);
