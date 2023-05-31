@@ -22,14 +22,23 @@ body {
   height: 100vh;
 }
 
+.col-md-12 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 h1.slogan {
-  font-size: 4.25rem;
+  font-size: 68px;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
 h2.coming-soon {
-  font-size: 3rem;
+  font-size: 48px;
   font-weight: bold;
   color: #ff4d00;
+  text-align: center;
 }
 
 /* Header styles */
@@ -54,16 +63,54 @@ main {
   min-height: calc(100vh - 80px);
 }
 
+.form-container {
+  background-color: white;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 512px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.email-confirmation.form-container {
+  max-width: unset;
+}
+
+.form-subtitle {
+  font-size: 16px;
+  text-align: center;
+}
+
+form {
+  width: 100%;
+  text-align: center;
+}
 form .form-group {
   flex: 1;
   min-height: 60px;
 }
 
-form .form-control {
-  border: 0;
+.email-confirmation form {
+}
+
+.confirmation-code-input {
+  display: flex;
+  width: 96px;
+  height: 128px;
+  background-color: #f2efed;
+  color: #61605f;
   border-radius: 8px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  border: none;
+}
+
+form .form-control {
+  min-height: 40px;
+  background-color: #f2efed;
+  color: #61605f;
+  border: none;
+  border-radius: 8px;
 }
 
 .hidden {
@@ -81,10 +128,26 @@ form .form-control {
   width: auto;
   text-align: center;
   border-radius: 8px;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
   background-color: #ff4d00;
+  color: #ffffff;
+  width: 100%;
+  max-width: 256px;
+  height: 56px;
   border: 0;
+}
+
+.email-confirmation .btn-primary {
+  margin-bottom: 1.25rem;
+}
+
+.btn-primary :focus {
+  outline: none;
+}
+
+.btn-primary :active,
+.btn-primary :focus {
+  color: #ffffff; /* Replace with the color you want */
+  background-color: #ff4d00; /* Replace with the background color you want */
 }
 
 .btn-primary:hover {
@@ -96,6 +159,10 @@ form .form-control {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.kryptic p {
+  margin: 0;
 }
 .app-stores img {
   max-height: 60px !important;
@@ -152,6 +219,7 @@ a:visited {
 .social-icon:hover {
   color: #ff4d00;
 }
+
 @media (min-width: 768px) {
   .slogan {
     font-size: 3rem;
