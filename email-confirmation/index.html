@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary Meta Tags -->
+    <title>Email Confirmation - ArchX Wallet</title>
+    <meta name="title" content="Email Confirmation - ArchX Wallet" />
+    <meta
+      name="description"
+      content="Please enter the confirmation code you received via email to confirm your subscription for ArchX Wallet Alpha testing."
+    />
+    <meta
+      name="keywords"
+      content="crypto, wallet, archx, mobile, alpha, testing, cryptocurrency, blockchain, email, confirmation"
+    />
+    <link rel="icon" href="../assets/images/favicon-32x32.png" />
+
+    <!-- Bootstrap CSS and Custom Styles -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+  </head>
+  <body>
+    <header class="px-4">
+      <img src="../assets/images/logo.png" alt="ArchX Wallet Logo" class="archx-logo" />
+    </header>
+    <main class="container">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-md-8">
+          <h1 class="slogan mb-4">Confirm Your Email</h1>
+          <h2 class="coming-soon mb-4">Enter your confirmation code below</h2>
+          <form
+            name="confirmationCode"
+            method="POST"
+            class="mb-5 d-flex flex-row justify-content-center"
+            onsubmit="submitForm(event)"
+          >
+            <input type="text" name="char1" maxlength="1" class="confirmation-code-input" required />
+            <input type="text" name="char2" maxlength="1" class="confirmation-code-input" required />
+            <input type="text" name="char3" maxlength="1" class="confirmation-code-input" required />
+            <input type="text" name="char4" maxlength="1" class="confirmation-code-input" required />
+            <input type="text" name="char5" maxlength="1" class="confirmation-code-input" required />
+            <input type="text" name="char6" maxlength="1" class="confirmation-code-input" required />
+            <button type="submit" class="btn btn-primary">Confirm</button>
+          </form>
+        </div>
+      </div>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/confirmation.js"></script>
+  </body>
+</html>

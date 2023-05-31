@@ -1,0 +1,28 @@
+{
+  "name": "archx-comingsoon",
+  "version": "1.0.0",
+  "description": "Alpha testing coming soon website.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kryptic-Inc/ArchX-ComingSoon.git"
+  },
+  "keywords": [
+    "archx",
+    "kryptic",
+    "archway"
+  ],
+  "author": "Kryptic Inc",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kryptic-Inc/ArchX-ComingSoon/issues"
+  },
+  "homepage": "https://github.com/Kryptic-Inc/ArchX-ComingSoon#readme",
+  "dependencies": {
+    "firebase-admin": "^11.8.0",
+    "postmark": "^3.0.18"
+  }
+}
