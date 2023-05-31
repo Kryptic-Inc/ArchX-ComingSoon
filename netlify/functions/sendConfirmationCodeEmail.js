@@ -3,8 +3,8 @@ const postmark = require("postmark");
 const sendConfirmationCodeEmail = async (email, confirmationCode, uuid) => {
   try {
     console.log("Creating Postmark Client...");
-    console.log(process.env.EMAIL_PROVIDER_KEY);
-    const client = new postmark.ServerClient("56aa55fa-2b52-4c06-9799-f761eba3e379");
+
+    const client = new postmark.ServerClient(process.env.NETLIFY_EMAILS_PROVIDER_API_KEY);
 
     console.log("Creating Template Model ");
 
