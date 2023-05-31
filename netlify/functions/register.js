@@ -4,6 +4,8 @@ const sendConfirmationCodeEmail = require("./sendConfirmationCodeEmail");
 const { phoneModels, countryList } = require("./list");
 const url = require("url");
 
+console.log(process.env.FIREBASE_PRIVATE_KEY);
+
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert({
