@@ -27,6 +27,9 @@ exports.handler = async (event, context) => {
 
   const clientIp = event.headers["client-ip"];
 
+  console.log(event.headers);
+  console.log(event);
+
   if (!clientIp) {
     return {
       statusCode: 400,
