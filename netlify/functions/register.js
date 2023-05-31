@@ -2,7 +2,7 @@ const admin = require("firebase-admin");
 const crypto = require("crypto");
 const sendConfirmationCodeEmail = require("./sendConfirmationCodeEmail");
 const { phoneModels, countryList } = require("./list");
-console.log("Attempting to initialize Firebase Admin...");
+const url = require("url");
 
 if (!admin.apps.length) {
   admin.initializeApp({
@@ -13,21 +13,12 @@ if (!admin.apps.length) {
     }),
     databaseURL: "https://archx-coming-soon.firebaseio.com",
   });
-  console.log("Firebase Admin initialized successfully!");
-} else {
-  console.log("Firebase Admin already initialized!");
 }
 
 const db = admin.firestore();
-console.log("Firestore initialized");
 
 exports.handler = async (event, context) => {
-  // Check rate limit
-  console.log("Handler triggered");
   const clientIp = event.headers["x-nf-client-connection-ip"];
-
-  console.log(event.headers);
-  console.log(event);
 
   if (!clientIp) {
     return {
@@ -36,7 +27,7 @@ exports.handler = async (event, context) => {
     };
   }
 
-  const body = JSON.parse(event.body);
+  const body = Object.fromEntries(new url.URLSearchParams(event.body));
   // Email validation
   if (!body.email || !/\S+@\S+\.\S+/.test(body.email)) {
     return {
