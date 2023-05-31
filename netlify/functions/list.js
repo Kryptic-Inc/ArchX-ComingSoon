@@ -1,6 +1,6 @@
 const phoneModels = {
-  Android: ["Samsung Galaxy S20", "Google Pixel 4", "OnePlus 8", "LG V60", "Motorola Edge Plus"],
-  iOS: [
+  ANDROID: ["Samsung Galaxy S20", "Google Pixel 4", "OnePlus 8", "LG V60", "Motorola Edge Plus"],
+  IOS: [
     "iPhone 14 Plus",
     "iPhone 14 Pro Max",
     "iPhone 14 Pro",

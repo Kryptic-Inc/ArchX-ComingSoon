@@ -28,6 +28,7 @@ exports.handler = async (event, context) => {
   }
 
   const body = Object.fromEntries(new url.URLSearchParams(event.body));
+  console.log(body);
   // Email validation
   if (!body.email || !/\S+@\S+\.\S+/.test(body.email)) {
     return {
