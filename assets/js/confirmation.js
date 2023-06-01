@@ -102,3 +102,25 @@ function submitForm(event) {
 
 // Adding event listener to the form
 document.forms.confirmationCode.addEventListener("submit", submitForm);
+// Get all the confirmation code input fields
+const confirmationCodeInputs = document.querySelectorAll(".confirmation-code-input");
+
+// Add a paste event listener to all input fields
+confirmationCodeInputs.forEach(function (input) {
+  input.addEventListener("paste", function (event) {
+    // Prevent the default paste behavior
+    event.preventDefault();
+
+    // Get the pasted text
+    const pastedText = event.clipboardData.getData("text");
+
+    // Distribute the characters across the input fields
+    for (let i = 0; i < confirmationCodeInputs.length; i++) {
+      if (i < pastedText.length) {
+        confirmationCodeInputs[i].value = pastedText[i];
+      } else {
+        confirmationCodeInputs[i].value = "";
+      }
+    }
+  });
+});

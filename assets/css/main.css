@@ -93,8 +93,7 @@ form .form-group {
 }
 
 .confirmation-code-input {
-  display: flex;
-  width: 96px;
+  max-width: 96px;
   height: 128px;
   background-color: #f2efed;
   color: #61605f;
@@ -102,6 +101,7 @@ form .form-group {
   border: none;
   text-align: center;
   font-size: 32px;
+  flex: 1;
 }
 
 form .form-control {
@@ -232,5 +232,14 @@ a:visited {
 
   .join-alpha {
     font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .confirmation-code-input {
+    width: calc(16.66% - 8px);
+    height: 96px;
+    margin-right: 8px;
+    font-size: 24px;
   }
 }
