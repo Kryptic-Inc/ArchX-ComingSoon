@@ -67,10 +67,17 @@ function submitForm(event) {
       if (data.success) {
         // Replace the form with a success message
         const successMessage = document.createElement("p");
+        const header = document.querySelector(".coming-soon");
+        const subtitle = document.querySelector(".form-subtitle");
+
         successMessage.textContent = "Thank you! Your email has been confirmed successfully.";
-        successMessage.style.color = "#28A745";
+        successMessage.style.color = "#00CF30";
+        successMessage.style.fontSize = "24px";
         successMessage.classList.add("form-message");
+
+        header.textContent = "You're Confirmed";
         form.parentNode.replaceChild(successMessage, form);
+        if (subtitle) subtitle.remove();
       } else {
         // Show error message
         const errorMessage = document.createElement("p");
