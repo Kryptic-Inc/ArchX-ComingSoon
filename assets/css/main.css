@@ -119,6 +119,7 @@ form .form-control {
   display: flex;
   justify-content: center;
   flex-direction: row;
+  margin-bottom: 16px;
 }
 
 .btn-primary {
