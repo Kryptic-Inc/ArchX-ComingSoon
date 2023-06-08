@@ -1,6 +1,6 @@
 function submitForm(event) {
   event.preventDefault(); // Prevent the default form submission behavior
-
+  return;
   // Get the submit button
   const submitButton = event.target.querySelector("button[type='submit']");
 
